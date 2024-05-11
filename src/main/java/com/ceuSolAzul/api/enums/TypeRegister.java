@@ -1,31 +1,39 @@
 package com.ceuSolAzul.api.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
 
+import java.util.*;
+
+@Getter
 public enum TypeRegister {
 
-    FOUND(0),
-    LOST(1);
+    FOUND("Pessoas Encontradas"),
+    LOST("Pessoas Desaparecidas");
 
-    private final int value;
+    private final String displayName;
 
-    TypeRegister(int value) {
-        this.value = value;
+    TypeRegister(String displayName) {
+        this.displayName = displayName;
     }
 
-    @JsonValue
-    public int getValue() {
-        return value;
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static synchronized TypeRegister create(final HashMap<?, ?> value) {
+        return TypeRegister.getByName(value.get("name").toString());
     }
 
-    @JsonCreator
-    public static TypeRegister fromValue(int value) {
-        for (TypeRegister status : TypeRegister.values()) {
-            if (status.getValue() == value) {
-                return status;
-            }
+    public static synchronized TypeRegister getByName(final String name) {
+        return Arrays.stream(TypeRegister.values()).filter(filter -> filter.name().equals(name)).findFirst().orElse(null);
+    }
+
+    public static List<Map<String, String>> getAllValues() {
+        List<Map<String, String>> valuesList = new ArrayList<>();
+        for (TypeRegister type : TypeRegister.values()) {
+            Map<String, String> valueMap = new HashMap<>();
+            valueMap.put("name", type.name());
+            valueMap.put("displayName", type.getDisplayName());
+            valuesList.add(valueMap);
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        return valuesList;
     }
 }

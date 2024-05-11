@@ -1,12 +1,11 @@
 package com.ceuSolAzul.api.service;
 
+import com.ceuSolAzul.api.filtro.PersonFilter;
 import com.ceuSolAzul.api.models.Person;
 import com.ceuSolAzul.api.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ public class PersonService {
         return repository.findById(id);
     }
 
-    public Page<Person> listPage(final Integer page, final Integer size) {
-        return repository.findAll(PageRequest.of(page, size));
+    public Page<Person> listPage(final PersonFilter filter) {
+        return repository.findByFilter(filter);
     }
 }

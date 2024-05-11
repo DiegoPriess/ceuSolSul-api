@@ -1,5 +1,7 @@
 package com.ceuSolAzul.api.controller;
 
+import com.ceuSolAzul.api.enums.TypeRegister;
+import com.ceuSolAzul.api.filtro.PersonFilter;
 import com.ceuSolAzul.api.models.Person;
 import com.ceuSolAzul.api.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,15 @@ public class PersonController {
 
     @GetMapping("/{page}/{size}")
     public Page<Person> list(@PathVariable Integer page,
-                             @PathVariable Integer size) {
-        return service.listPage(page, size);
+                             @PathVariable Integer size,
+                             @RequestParam(required = false) String name,
+                             @RequestParam(required = false) TypeRegister type) {
+
+        return service.listPage(PersonFilter.builder()
+                                            .page(page)
+                                            .size(size)
+                                            .name(name)
+                                            .type(type)
+                                            .build());
     }
 }
