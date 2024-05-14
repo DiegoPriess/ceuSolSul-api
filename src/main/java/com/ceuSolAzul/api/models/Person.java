@@ -45,5 +45,5 @@ public class Person {
     private String responsableContact;
 
     @Column(name="date_created", nullable = false)
-    private LocalDateTime dateCreation;
+    private final LocalDateTime dateCreation = LocalDateTime.now();
 }
