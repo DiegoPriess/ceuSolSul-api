@@ -15,4 +15,6 @@ public class PersonFilter {
     private String name;
 
     private TypeRegister type;
+    
+    
 }

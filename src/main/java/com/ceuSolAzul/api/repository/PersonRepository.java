@@ -16,23 +16,23 @@ import java.util.List;
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecificationExecutor<Person> {
 
-    default Page<Person> findByFilter(final PersonFilter filter) {
-        Specification<Person> spec = createSpecification(filter);
-        return findAll(spec, PageRequest.of(filter.getPage(), filter.getSize()));
-    }
+	default Page<Person> findByFilter(final PersonFilter filter, PageRequest pageable) {
+		Specification<Person> spec = createSpecification(filter);
+		return findAll(spec, pageable);
+	}
 
-    private Specification<Person> createSpecification(PersonFilter filter) {
-        return (root, query, cb) -> {
-            List<Predicate> predicates = new ArrayList<>();
+	private Specification<Person> createSpecification(PersonFilter filter) {
+		return (root, query, cb) -> {
+			List<Predicate> predicates = new ArrayList<>();
 
-            if (filter.getName() != null) {
-                predicates.add(cb.like(root.get("name"), "%" + filter.getName() + "%"));
-            }
-            if (filter.getType() != null) {
-                predicates.add(cb.equal(root.get("type"), filter.getType()));
-            }
+			if (filter.getName() != null) {
+				predicates.add(cb.like(root.get("name"), "%" + filter.getName() + "%"));
+			}
+			if (filter.getType() != null) {
+				predicates.add(cb.equal(root.get("type"), filter.getType()));
+			}
 
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-    }
+			return cb.and(predicates.toArray(new Predicate[0]));
+		};
+	}
 }
