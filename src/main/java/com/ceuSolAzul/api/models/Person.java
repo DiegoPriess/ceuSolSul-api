@@ -1,11 +1,13 @@
 package com.ceuSolAzul.api.models;
 
 import com.ceuSolAzul.api.enums.TypeRegister;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -44,6 +46,8 @@ public class Person {
     @Column(name="responsable_contact", nullable = false)
     private String responsableContact;
 
-    @Column(name="date_created", nullable = false)
-    private final LocalDateTime dateCreation = LocalDateTime.now();
+    @Column(name="date_created")
+    @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime dateCreation;
 }
