@@ -5,7 +5,6 @@ import com.ceuSolAzul.api.models.Person;
 import com.ceuSolAzul.api.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class PersonService {
 		return repository.findById(id);
 	}
 
-	public Page<Person> listPage(final PersonFilter filter, PageRequest pageable) {
-		return repository.findByFilter(filter, pageable);
+	public Page<Person> listPage(final PersonFilter filter) {
+		return repository.findByFilter(filter);
 	}
 }

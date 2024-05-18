@@ -8,13 +8,14 @@ import lombok.Data;
 @Builder
 public class PersonFilter {
 
+    private String name;
+
+    private String address;
+
+    private TypeRegister type;
+
     private Integer page;
 
     private Integer size;
 
-    private String name;
-
-    private TypeRegister type;
-    
-    
 }

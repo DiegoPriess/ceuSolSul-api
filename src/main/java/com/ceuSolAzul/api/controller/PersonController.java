@@ -40,18 +40,13 @@ public class PersonController {
                              @PathVariable Integer size,
                              @RequestParam(required = false) String name,
                              @RequestParam(required = false) TypeRegister type,
-                             @RequestParam(required =  false, defaultValue = "id") String sortBy,
-                             @RequestParam(required = false, defaultValue = "asc") String sortDir       
-    		) {	
-    	
-        Sort sort = Sort.by(Sort.Direction.ASC, sortBy);
-        PageRequest pageable = PageRequest.of(page, size, sort);
+                             @RequestParam(required = false) String address) {
         return service.listPage(PersonFilter.builder()
-                                            .page(page)
-                                            .size(size)
                                             .name(name)
                                             .type(type)
-                                            .build(), pageable
-                                            );
+                                            .address(address)
+                                            .page(page)
+                                            .size(size)
+                                            .build());
     }
 }
